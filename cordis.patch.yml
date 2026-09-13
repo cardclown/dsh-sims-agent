@@ -1,0 +1,7 @@
+# 只追加自有 Host 与管理 RPC；不覆盖共享 agent-presets 配置。
+- insert:
+    - id: sims-agent
+      name: '@dsh-ops/dsh-sims-agent'
+      config: {}
+    - id: sims-agent-settings
+      name: '@dsh-ops/dsh-sims-agent/settings-rpc'

@@ -1,0 +1,35 @@
+{
+  "sourceCommit": "519662bd6e8c475f219e63b753d01418e881c1f2",
+  "pluginVersion": "0.1.2",
+  "dshVersion": "0.1.2-rc.1",
+  "pnpmVersion": "10.32.1",
+  "reactVersion": "18.3.1",
+  "nodeImageManifest": "sha256:dd9d21971ec4395903fa6143c2b9267d048ae01ca6d3ea96f16cb30df6187d94",
+  "results": {
+    "arm64": {
+      "status": "PASS",
+      "platform": "linux",
+      "arch": "arm64",
+      "node": "v22.22.0",
+      "nativePty": "PASS",
+      "host": "real DSH CLI + authenticated RPC",
+      "template": "ready/create/remove",
+      "connection": "CONFIGURATION_REQUIRED",
+      "missingArtifactRejected": true,
+      "corruptArtifactRejected": true
+    },
+    "amd64": {
+      "status": "PASS",
+      "platform": "linux",
+      "arch": "x64",
+      "node": "v22.22.0",
+      "nativePty": "PASS",
+      "host": "real DSH CLI + authenticated RPC",
+      "template": "ready/create/remove",
+      "connection": "CONFIGURATION_REQUIRED",
+      "missingArtifactRejected": true,
+      "corruptArtifactRejected": true
+    }
+  },
+  "scope": "隔离 Docker Linux；x64 由本机模拟执行，与生产CPU架构一致；不代表生产迁移或真实SIMS授权验收。"
+}

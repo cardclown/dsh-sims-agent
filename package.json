@@ -1,0 +1,81 @@
+{
+  "name": "@dsh-ops/dsh-sims-agent",
+  "version": "0.1.3",
+  "description": "SIMS 助手：单一 sims 工具与真实身份连接检查",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    "./tool": "./src/tool.mjs",
+    "./package.json": "./package.json",
+    ".": "./src/host.mjs",
+    "./settings-rpc": "./src/settings-rpc.mjs",
+    "./client": "./lib/client.js"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-slots"
+      ]
+    }
+  },
+  "files": [
+    "src",
+    "presets",
+    "cordis.patch.yml",
+    "README.md",
+    "scripts/check-release.mjs",
+    "lib/client.js"
+  ],
+  "engines": {
+    "node": ">=22.19.0 <23"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "check": "node --check src/config.mjs && node --check src/sims-client.mjs && node --check src/tool.mjs && node --check src/host.mjs && node --check src/settings-rpc.mjs && node --check client/index.js && node --check scripts/build-client.mjs && node --check src/preset-setup.mjs",
+    "check:release": "node scripts/check-release.mjs",
+    "prepublishOnly": "npm run build && npm run check && npm test && npm run check:release",
+    "build": "node scripts/build-client.mjs",
+    "prepack": "npm run build",
+    "prepare": "npm run build"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2",
+    "@deepseek-ai/dsh-agent-presets": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-client-connection": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-settings": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-client-ui-slots": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-credentials": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-settings": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-tools": "0.1.2-rc.1",
+    "@deepseek-ai/schemastery": "^3.18.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-credentials-local": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-host-webserver": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-scope": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-settings-file": "0.1.2-rc.1",
+    "@deepseek-ai/dsh-system-prompt": "0.1.2-rc.1",
+    "esbuild": "0.25.9",
+    "react": "18.3.1",
+    "js-yaml": "4.3.2",
+    "@deepseek-ai/cordis-plugin-include": "1.0.7",
+    "@deepseek-ai/cordis-plugin-loader": "1.0.3",
+    "@deepseek-ai/dsh-session-projection": "0.1.2-rc.1"
+  },
+  "main": "./src/host.mjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cardclown/dsh-sims-agent.git"
+  },
+  "homepage": "https://github.com/cardclown/dsh-sims-agent#readme",
+  "bugs": {
+    "url": "https://github.com/cardclown/dsh-sims-agent/issues"
+  }
+}
