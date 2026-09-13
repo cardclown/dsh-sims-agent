@@ -1,0 +1,6 @@
+url: https://github.com/cardclown/dsh-sims-agent
+name: cardclown/dsh-sims-agent
+category: tools
+description:
+  en: Single-tool SIMS connection checks with host-managed configuration, credentials, and user presets.
+  zh: 通过单一工具检查 SIMS 连接，使用宿主管理配置、凭据和用户预设。

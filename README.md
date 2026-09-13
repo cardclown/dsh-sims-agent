@@ -61,6 +61,25 @@ Bundle 应位于宿主基础包和 web-app 之后。安装后在原生设置中�
 
 ## 公开源码构建
 
-本仓库是独立插件源码，0.1.3 为开发候选。克隆后按上面的命令构建与验证，执行 `npm pack` 生成包含客户端资源的安装包。`prepare` 是包管理器的标准构建生命周期，不是 DSH 安装 hook；禁止脚本时需显式执行 `npm run build`。Git 直装的 DSH 市场路径尚待验收，当前不承诺一键市场安装。
+本仓库是独立插件源码，0.1.3 为开发候选。克隆后按上面的命令构建与验证，执行 `npm pack` 生成包含客户端资源的安装包。`prepare` 是包管理器的标准构建生命周期，不是 DSH 安装 hook；禁止脚本时需显式执行 `npm run build`。GitHub 固定提交直装已通过下述隔离 Profile 验证；市场 UI 安装与实际收录仍待验收。
 
 0.1.2 的离线夹具与历史结果仅适用于原 0.1.2 制品，不覆盖本候选的新增发布元数据和构建入口。源码公开不等于 npm 发布、市场收录或生产部署。
+
+## GitHub 直装（无需 npm 登录）
+
+已验证 Node 22.22.3、DSH 0.1.2-rc.1、pnpm 10.32.1、macOS arm64。使用已安装的 DSH：
+
+```sh
+dsh plugin --profile web add 'git+https://github.com/cardclown/dsh-sims-agent.git#cd898c05aec853e80e1e417ac3b606c25f525934'
+```
+
+pnpm 首次可能返回 `ERR_PNPM_GIT_DEP_PREPARE_NOT_ALLOWED`。按错误指出的 Profile 路径，在其 `pnpm-workspace.yaml` 已有配置中合并下列许可，然后重试原命令；保留已有许可和其他设置，不覆盖整个文件：
+
+```yaml
+onlyBuiltDependencies:
+  - "@dsh-ops/dsh-sims-agent"
+```
+
+该字段对应已验证的 pnpm 10.32.1；其他版本遵循自身错误提示。允许的只是本插件源码构建。安装后按宿主提示刷新或重启，在设置中配置 SIMS。安装需要网络访问 GitHub 和依赖来源，但不需要 npm 账号。
+
+2026-09-13 已从公开固定提交安装到新的独立 Profile：客户端资源生成、Bundle 注册、真实 DSH 启动、经过宿主认证的 RPC、模板创建/识别/显式移除均通过。未配置账号时正确返回 `CONFIGURATION_REQUIRED`。本次不包含真实 SIMS 授权、市场 UI、生产部署或新版跨平台离线重建验收。隔离 Profile 使用已安装的官方 DSH 宿主，未复制插件开发目录。
