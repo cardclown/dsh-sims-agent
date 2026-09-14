@@ -88,3 +88,11 @@ test('默认工具读取真实 Host 已保存设置与凭据，不回退文件',
   assert.equal(result.isError,false); assert.equal(result.value.status,'AUTH_REQUIRED');
   assert.equal(authorization,'Bearer host.test.token');
 });
+
+test('考勤动作仍走单工具管线：缺少授权明确失败，拒绝日期与身份覆盖', async t => {
+  const h=await harness(t);
+  const run=arguments_=>h.tools.execute({name:'sims',arguments:arguments_,callId:'attendance-check',agent:h.key,signal:new AbortController().signal});
+  const result=await run({action:'attendance.summary',date:'2026-09-13'});
+  assert.equal(result.isError,false);assert.equal(result.value.status,'CONFIGURATION_REQUIRED');
+  for(const args of [{action:'attendance.summary'},{action:'attendance.summary',date:'2026-02-30'},{action:'attendance.summary',date:'2026-09-13',userId:1}]) assert.equal((await run(args)).isError,true);
+});

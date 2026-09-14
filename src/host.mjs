@@ -1,3 +1,4 @@
+import { queryAttendance } from './attendance.mjs';
 import { Service } from '@deepseek-ai/cordis';
 import { credentialKey } from '@deepseek-ai/dsh-credentials';
 import { HostConfig, validateHostConfig } from './config.mjs';
@@ -47,6 +48,14 @@ export default class SimsConnection extends Service {
     this._assertActive();
     await this.ctx.credentials.deleteRecord(key);
     return this.describe();
+  }
+  async attendance(args, signal) {
+    this._assertActive();
+    const combined = signal ? AbortSignal.any([signal, this._closing.signal]) : this._closing.signal;
+    return queryAttendance(this._scope.get(), args, combined, async () => {
+      const record = await this.ctx.credentials.readRecord(key);
+      return record?.kind === 'grant' ? record.payload?.accessToken : undefined;
+    });
   }
   async check(signal) {
     this._assertActive();
